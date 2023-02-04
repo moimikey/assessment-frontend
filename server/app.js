@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json())
 
-app.get('/city/:id', (req, res) => {
+app.get('/page/:id', (req, res) => {
 	const paramId = req.params.id.toLowerCase();
 	const page = PAGES.find(({ id }) => id === paramId);
 
