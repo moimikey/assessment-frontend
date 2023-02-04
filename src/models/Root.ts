@@ -14,7 +14,7 @@ export class Root extends Model({
     weatherData: tProp(types.maybe(types.model(Weather)))
 }) {
     onAttachedToRootStore () {
-        console.log('root store attached...')
+        console.log('Root store attached.')
     }
 
     @modelFlow
