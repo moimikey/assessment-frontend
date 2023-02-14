@@ -7,8 +7,7 @@ describe('Model', () => {
             expect(model).toMatchObject({
                 components: [],
                 lists: [],
-                variables: [],
-                weatherData: {}
+                variables: []
             })
         })
     })

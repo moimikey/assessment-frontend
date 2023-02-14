@@ -11,25 +11,38 @@ export class Root extends Model({
     lists: tProp(types.array(types.model(List)), () => []).withSetter(),
     components: tProp(types.array(types.model(Component)), () => []).withSetter(),
     variables: tProp(types.array(types.model(Variable)), () => []).withSetter(),
-    weatherData: tProp(types.maybe(types.model(Weather)))
+    activeListId: tProp(types.number, () => 0).withSetter()
 }) {
     onAttachedToRootStore () {
         console.log('Root store attached.')
     }
 
     @modelFlow
-    fetchWeatherData = _async(function* (this: Root, options: { lat: string; lon: string }) {
+    fetchWeatherData = _async(function* (this: Weather, options: { lat: string; lon: string }) {
         // @ts-expect-error
         const response: any = yield* _await(() =>
             axios.get(
                 `http://localhost:3030/integration/weather?lon=${options.lon}&lat=${options.lat}`
             )
         )
+
         const resp = yield response()
-        this.weatherData = new Weather({
+        const weather = new Weather({
             ...resp?.data?.data,
             upcomming: resp?.data?.data?.upcomming.map((c: any) => new WeatherShort(c))
         })
+
+        this.condition = weather.condition
+        this.conditionName = weather.conditionName
+        this.lat = weather.lat
+        this.location = weather.location
+        this.locationImage = weather.locationImage
+        this.lon = weather.lon
+        this.temperature = weather.temperature
+        this.unit = weather.unit
+        this.upcomming = weather.upcomming
+
+        return this
     })
 
     @modelFlow
@@ -39,6 +52,7 @@ export class Root extends Model({
         const resp = yield response()
         const body = resp?.data?.data
 
+        this.activeListId = 0
         this.components = body.components?.map((c: any) => new Component(c))
         this.lists = body.lists?.map(
             (l: List) =>
@@ -61,7 +75,7 @@ export class Root extends Model({
             lists: this.lists,
             components: this.components,
             variables: this.variables,
-            weatherData: this.weatherData
+            activeListId: this.activeListId
         }
     })
 }
