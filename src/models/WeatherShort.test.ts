@@ -9,7 +9,9 @@ describe('Model', () => {
                 day: 'Fri'
             })
             expect(model).toMatchObject({
-                condition: ''
+                condition: 'cloudy',
+                conditionName: 'Cloudy',
+                day: 'Fri'
             })
         })
     })
