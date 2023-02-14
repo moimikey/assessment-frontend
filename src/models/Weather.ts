@@ -3,14 +3,14 @@ import { WeatherShort } from './WeatherShort'
 
 @model('Data/Weather')
 export class Weather extends Model({
-    condition: prop<string>(),
-    conditionName: prop<string>(),
+    condition: prop<string>(''),
+    conditionName: prop<string>(''),
     lat: prop<string>(''),
-    location: prop<string>(),
-    locationImage: prop<string>(),
+    location: prop<string>(''),
+    locationImage: prop<string>(''),
     lon: prop<string>(''),
-    temperature: prop<number>(),
-    unit: prop<string>(),
+    temperature: prop<number>(Infinity),
+    unit: prop<string>(''),
     upcomming: tProp(types.array(types.maybe(types.model(WeatherShort))), () => [])
 }) {
     @modelAction

@@ -6,7 +6,8 @@ export type ComponentOptions = { [key: string]: any }
 export class Component extends Model({
     id: prop<number>(),
     type: prop<string>(),
-    options: prop<ComponentOptions>()
+    options: prop<ComponentOptions>(),
+    children: prop<number | undefined>()
 }) {
     @modelAction
     setId (id: number) {
