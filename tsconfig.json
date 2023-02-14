@@ -23,6 +23,7 @@
         "jsx": "react-jsx"
     },
     "include": [
+        "components",
         "src",
         "server"
     ]
