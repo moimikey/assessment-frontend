@@ -142,22 +142,31 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
   * pages are _not_ linked together and act as separate entities
   * pages are routed 1:1 with backend API (`::1:3000/page/page-one` &amp; `::1:3030/page/page-one`)
 * 3 types of data properties
-  * `lists`: list of components to be displayed for ID (ID is 1:1 with page ID (ex. 2 === page-two))
-  * `variables`: a
-  * `components`: inventory of available components by ID (ID of component is referenced in `lists`)
+  * `lists`: conditionalized page state which starts with id=0 and its components. When a component type of `condition` is included, its children reference an `id` in `lists`, and producing those components when the condition components predicate is met.
+    * ex: lists: { id: 0, components: [1 (button), 2 (condition)], id: 1, components: [3 (some other button)] }, components: { id: 2, type: "condition", children: 1 }
+    * ex continued: {
+  * `variables`: objects with name/type/initialValue that map to component `options`
+  * `components`: inventory of available components by ID (ID of component is referenced in `lists`). `children` refers to the "`list`" ID.
 
 ## Developer Notes
 
+I totally screwed up my branching off master... which is why this is on `main` with several new commits. Apologies...
+
 My solution included the following libraries:
 
-* mobx & mobx-keystone ()
+* mobx & mobx-keystone (state management &amp; MVVM style app)
 * react-router(-dom)
 
 If there was additional time:
 
 * design system/styling/theme system and not inline css={} style={}
-* additional typing
-* additional tests
+* more typing
+* more tests
+
+Also,
+
+* It's pretty brilliant how the API responses are setup here, where it allows
+for these really complex layout scenarios, with what are essentially reference pointers.
 
 ---
 
@@ -172,8 +181,6 @@ If there was additional time:
 * Ran `npm-check-updates` to upgrade dependencies, so the latest node can be used (v14 -> v18). Any major/minor breaking changes in libs have also been addressed (ie. `react-router-dom`)
 
 * Updated [README.md](./README.md)
-
-* Fixed typo for property "upcomming" to "upcoming" in models
 
 ### API Responses
 
@@ -312,7 +319,7 @@ unavailable coords:
 * Upgrade Node to the latest (15m)
 * Upgrade dependencies to the latest (15m)
 * Create primitive &amp; composed components
-  * Composed Components
+  * Composed Components (30m)
     * `<WeatherCard />`
   * Primitive Components (1hr)
     * `<Element />` (base of all other components)
@@ -325,9 +332,4 @@ unavailable coords:
 * Create component `Behaviors`:
   * `<Behavior />`
 * Hook up MVVM style state management w/ [mobx](https://mobx.js.org) and [mobx-keystone](https://mobx-keystone.js.org) for state management and catalyst for MVVM. (2hr)
-
-### Notes
-
-* Integration response didn't include an image URL, which I'd recommend adding to the response.
-* Recommendation to change upcoming to an `Upcoming` model, to share between Components and Lists.
-* Recommendation to use strings for IDs.
+* Page conditions (3hr)
