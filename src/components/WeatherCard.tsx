@@ -3,8 +3,8 @@ import { Card } from './Card'
 import { Grid } from './Grid'
 import { Image } from './Image'
 import { useStore } from '../store'
-import { useEffect } from 'react'
-import { WeatherShort } from '../models'
+import { useEffect, useState } from 'react'
+import { Weather, WeatherShort } from '../models'
 
 export interface WeatherCardProps extends ElementProps {
     options: {
@@ -15,14 +15,25 @@ export interface WeatherCardProps extends ElementProps {
 
 export function WeatherCard (props: WeatherCardProps): any {
     const { children, options, ...weatherProps } = props
-    const { weatherData, fetchWeatherData } = useStore()
+    const { fetchWeatherData } = useStore()
+    const [weatherData, setWeather] = useState(new Weather({}).$)
 
     useEffect(() => {
         async function fetchData () {
             return await fetchWeatherData(options)
         }
-        fetchData()
-    }, [])
+
+        // console.log('fetch weather for', options)
+        fetchData().then(setWeather)
+    }, [setWeather, options, fetchWeatherData])
+
+    if (!weatherData) {
+        return (
+            <Card style={{ height: '150px', backgroundColor: '#FFF' }} {...weatherProps}>
+                <span />
+            </Card>
+        )
+    }
 
     return (
         <Card style={{ height: '150px', backgroundColor: '#FFF' }} {...weatherProps}>

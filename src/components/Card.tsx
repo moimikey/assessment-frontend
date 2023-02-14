@@ -2,6 +2,7 @@ import { Element, ElementProps } from './Element'
 
 export interface CardProps extends ElementProps {
     options?: { [k: string]: any }
+    onClick?: () => void
 }
 
 export function Card (props: CardProps): any {
