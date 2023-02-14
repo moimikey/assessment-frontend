@@ -1,5 +1,5 @@
 import { ModelAutoTypeCheckingMode, registerRootStore, setGlobalConfig } from 'mobx-keystone'
-import { Root as RootStore, Weather } from './models'
+import { Root as RootStore } from './models'
 import React from 'react'
 
 setGlobalConfig({
