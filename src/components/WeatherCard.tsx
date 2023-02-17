@@ -22,8 +22,6 @@ export function WeatherCard (props: WeatherCardProps): any {
         async function fetchData () {
             return await fetchWeatherData(options)
         }
-
-        // console.log('fetch weather for', options)
         fetchData().then(setWeather)
     }, [setWeather, options, fetchWeatherData])
 

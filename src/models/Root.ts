@@ -32,17 +32,7 @@ export class Root extends Model({
             upcomming: resp?.data?.data?.upcomming.map((c: any) => new WeatherShort(c))
         })
 
-        this.condition = weather.condition
-        this.conditionName = weather.conditionName
-        this.lat = weather.lat
-        this.location = weather.location
-        this.locationImage = weather.locationImage
-        this.lon = weather.lon
-        this.temperature = weather.temperature
-        this.unit = weather.unit
-        this.upcomming = weather.upcomming
-
-        return this
+        return weather
     })
 
     @modelFlow
